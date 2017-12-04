@@ -7,6 +7,9 @@ const app = require('../config/app');
 
 const Tickers = require('../model/tickers');
 
+// const request = require('request');
+// const jsdom = require('jsdom');
+
 app.get('/', function(req, res) {
     Tickers.find({}, function(err, users) {
         if (err) throw err;
@@ -15,6 +18,7 @@ app.get('/', function(req, res) {
             console.log(user._id);
         });
     });
+
     res.render('index');
 });
 
