@@ -1,0 +1,2730 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Coin Market</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular-route.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/resources/style.css">
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top visible-xs">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Market Cap <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/">All</a></li>
+                        <li><a href="/coins/">Coins</a></li>
+                        <li><a href="/tokens/">Tokens</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Trade Volume <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/currencies/volume/24-hour/">24 Hour Volume Rankings (Currency)</a></li>
+                        <li><a href="/exchanges/volume/24-hour/">24 Hour Volume Rankings (Exchange)</a></li>
+                        <li><a href="/currencies/volume/monthly/">Monthly Volume Rankings (Currency)</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Trending <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/gainers-losers/">Gainers and Losers</a></li>
+                        <li><a href="/new/">Recently Added</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/charts/">Global Charts</a></li>
+                        <li><a href="/historical/">Historical Snapshots</a></li>
+                        <li><a href="/calculator/">Currency Converter Calculator</a></li>
+                        <li><a href="/widget/">Website Widgets</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form action="/currencies/search/" class="navbar-form navbar-right quick-search-container" role="search">
+                <div class="form-group">
+                    <span class="twitter-typeahead" style="position: relative; display: inline-block; direction: ltr;"><input type="text" class="form-control quick-search-box js-quick-search tt-input" placeholder="Search Currencies" name="q" autocomplete="off" spellcheck="false" dir="auto" style="position: relative; vertical-align: top;"><pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; word-spacing: 0px; letter-spacing: 0px; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre><span class="tt-dropdown-menu" style="position: absolute; top: 100%; left: 0px; z-index: 100; display: none; right: auto;"><div class="tt-dataset-currencies"></div></span></span>
+                    <button class="btn btn-primary hidden-sm hidden-md hidden-lg" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
+                <button class="btn btn-primary hidden-xs" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+            </form>
+            <div class="bottom-margin-1x hidden-sm hidden-md hidden-lg"></div>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid global-stats hidden-xs">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <ul class="list-inline stat-counters small" data-global-stats-container="">
+                    <li>Cryptocurrencies: <strong><a href="/all/views/all/"><span data-global-stats-cryptocurrencies="">1324</span></a></strong></li>
+                    <li>/ Markets: <strong><a href="/currencies/volume/24-hour/"><span data-global-stats-markets="">7069</span></a></strong></li>
+                </ul>
+            </div>
+            <div class="col-sm-6 text-center">
+                <ul class="list-inline stat-counters small" data-global-stats-container="">
+                    <li>Market Cap: <strong><a href="/charts/"><span data-global-stats-market-cap="" data-global-currency-market-cap="">$341,515,694,507</span></a></strong></li>
+                    <li> / 24h Vol: <strong><a href="/charts/"><span data-global-stats-volume="" data-global-currency-volume="">$14,360,824,331</span></a></strong> / BTC Dominance: <strong><a href="/charts/#dominance-percentage"><span data-global-stats-btc-dominance="">56.0</span>%</a></strong></li>
+                </ul>
+            </div>
+            <div class="col-sm-3 text-right">
+                <div data-global-currency-switch="" class="btn-group global-currency-dropdown-container">
+                    <button type="button" class="btn btn-xs dropdown-toggle global-currency-dropdown" data-toggle="dropdown">
+                        <span data-currency-display="">USD</span> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu text-center" role="menu">
+                        <li class="pointer"><a data-currency-toggle="">USD</a></li>
+                        <li class="divider"></li>
+                        <li class="pointer"><a data-currency-toggle="">AUD</a></li>
+                        <li class="divider"></li>
+                        <li class="pointer"><a data-currency-toggle="">BRL</a></li>
+                        <li class="divider"></li>
+                        <li class="pointer"><a data-currency-toggle="">CAD</a></li>
+                        <li class="divider"></li>
+                        <li class="pointer"><a data-currency-toggle="">CHF</a></li>
+                        <li class="divider"></li>
+                        <li class="pointer"><a data-currency-toggle="">CLP</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-xs dropdown-toggle language-dropdown" data-toggle="dropdown">
+                        <span data-language-dropdown="">English</span> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu text-center dropdown-menu-right" role="menu">
+                        <li class="pointer"><a href="/new/" data-language-toggle="en">English</a></li>
+                        <li class="divider"></li>
+                        <li class="pointer"><a href="/es/new/" data-language-toggle="es">Español</a></li>
+                        <li class="divider"></li>
+                        <li class="pointer"><a href="/pt-br/new/" data-language-toggle="pt-br">Português Brasil</a></li>
+                        <li class="divider"></li>
+                        <li class="pointer"><a href="/zh/new/" data-language-toggle="zh">简体中文</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row container">
+        <h1 class="title text-center">Cryptocurrency Market Capitalizations</h1>
+        <hr/>
+        <nav class="navbar desktop navbar-default hidden-xs">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Market Cap <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/">All</a></li>
+                            <li><a href="/coins/">Coins</a></li>
+                            <li><a href="/tokens/">Tokens</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Trade Volume <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/currencies/volume/24-hour/">24 Hour Volume Rankings (Currency)</a></li>
+                            <li><a href="/exchanges/volume/24-hour/">24 Hour Volume Rankings (Exchange)</a></li>
+                            <li><a href="/currencies/volume/monthly/">Monthly Volume Rankings (Currency)</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Trending <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/gainers-losers/">Gainers and Losers</a></li>
+                            <li><a href="/new/">Recently Added</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/charts/">Global Charts</a></li>
+                            <li><a href="/historical/">Historical Snapshots</a></li>
+                            <li><a href="/calculator/">Currency Converter Calculator</a></li>
+                            <li><a href="/widget/">Website Widgets</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form action="/currencies/search/" class="navbar-form navbar-right quick-search-container" role="search">
+                    <div class="form-group">
+                        <span class="twitter-typeahead" style="position: relative; display: inline-block; direction: ltr;"><input type="text" class="form-control quick-search-box js-quick-search tt-input" placeholder="Search Currencies" name="q" autocomplete="off" spellcheck="false" dir="auto" style="position: relative; vertical-align: top;"><pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; word-spacing: 0px; letter-spacing: 0px; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre><span class="tt-dropdown-menu" style="position: absolute; top: 100%; left: 0px; z-index: 100; display: none; right: auto;"><div class="tt-dataset-currencies"></div></span></span>
+                        <button class="btn btn-primary hidden-sm hidden-md hidden-lg" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                    <button class="btn btn-primary hidden-xs" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                </form>
+                <div class="bottom-margin-1x hidden-sm hidden-md hidden-lg"></div>
+            </div>
+        </nav>
+        <h3 class="text-center">Recently Added</h3>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th id="th-name">Name</th>
+                    <th id="th-symbol">Symbol</th>
+                    <th id="th-added" class="text-right">Added</th>
+                    <th id="th-marketcap" class="text-right">Market Cap</th>
+                    <th id="th-price" class="text-right">Price</th>
+                    <th id="th-totalsupply" class="text-right" title="The number of coins in existence available to the public">Circulating Supply</th>
+                    <th id="th-volume" class="text-right">Volume (24h)</th>
+                    <th id="th-change24h" class="text-right">% 24h</th>
+                </tr>
+
+                </thead>
+                <tbody>
+
+                <tr id="id-payfair">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/payfair.png" class="currency-logo" alt="Payfair">
+                        <a href="/currencies/payfair/">Payfair</a>
+                    </td>
+                    <td class="text-left">PFR</td>
+                    <td class="text-right">1 day ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/payfair/#markets" class="price" data-usd="0.0198666" data-btc="1.75292e-06">$0.019867</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x2fa32a39fc1c399e0cc7b2935868f5165de7ce97" target="_blank" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/payfair/#markets" class="volume" data-usd="50204.2" data-btc="4.42973">$50,204</a>
+                    </td>
+
+                    <td class="text-right">?</td>
+
+                </tr>
+
+                <tr id="id-dragonchain">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/dragonchain.png" class="currency-logo" alt="Dragonchain">
+                        <a href="/currencies/dragonchain/">Dragonchain</a>
+                    </td>
+                    <td class="text-left">DRGN</td>
+                    <td class="text-right">1 day ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/dragonchain/#markets" class="price" data-usd="0.265372" data-btc="2.34149e-05">$0.265372</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x419c4db4b9e25d6db2ad9691ccb832c8d9fda05e" target="_blank" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/dragonchain/#markets" class="volume" data-usd="919878.0" data-btc="81.1648">$919,878</a>
+                    </td>
+
+                    <td class="text-right">?</td>
+
+                </tr>
+
+                <tr id="id-qbao">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/qbao.png" class="currency-logo" alt="Qbao">
+                        <a href="/currencies/qbao/">Qbao</a>
+                    </td>
+                    <td class="text-left">QBT</td>
+                    <td class="text-right">2 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/qbao/#markets" class="price" data-usd="0.248052" data-btc="2.18867e-05">$0.248052</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+
+                        <span data-supply-container="" data-supply="?">?</span>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/qbao/#markets" class="volume" data-usd="42142.1" data-btc="3.71837">$42,142</a>
+                    </td>
+
+                    <td class="text-right">?</td>
+
+                </tr>
+
+                <tr id="id-ccore">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/ccore.png" class="currency-logo" alt="Ccore">
+                        <a href="/currencies/ccore/">Ccore</a>
+                    </td>
+                    <td class="text-left">CCO</td>
+                    <td class="text-right">3 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="909337.0" data-btc="80.2347">$909,337</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/ccore/#markets" class="price" data-usd="0.909337" data-btc="8.02347e-05">$0.909337</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x679badc551626e01b23ceecefbc9b877ea18fc46" target="_blank" data-supply-container="" data-supply="1000000.0">1,000,000</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/ccore/#markets" class="volume" data-usd="29798.6" data-btc="2.62926">$29,799</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="0.46" data-btc="-2.92">0.46%</td>
+
+                </tr>
+
+                <tr id="id-ongsocial">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/ongsocial.png" class="currency-logo" alt="onG.social">
+                        <a href="/currencies/ongsocial/">onG.social</a>
+                    </td>
+                    <td class="text-left">ONG</td>
+                    <td class="text-right">3 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/ongsocial/#markets" class="price" data-usd="0.137855" data-btc="1.21635e-05">$0.137855</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0xd341d1680eeee3255b8c4c75bcce7eb57f144dae" target="_blank" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/ongsocial/#markets" class="volume" data-usd="8946.33" data-btc="0.789373">$8,946</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-22.14" data-btc="-24.83">-22.14%</td>
+
+                </tr>
+
+                <tr id="id-ethlend">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/ethlend.png" class="currency-logo" alt="EthLend">
+                        <a href="/currencies/ethlend/">EthLend</a>
+                    </td>
+                    <td class="text-left">LEND</td>
+                    <td class="text-right">4 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/ethlend/#markets" class="price" data-usd="0.0293283" data-btc="2.58776e-06">$0.029328</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x80fB784B7eD66730e8b1DBd9820aFD29931aab03" target="_blank" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/ethlend/#markets" class="volume" data-usd="1163880.0" data-btc="102.694">$1,163,880</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="24.68" data-btc="20.50">24.68%</td>
+
+                </tr>
+
+                <tr id="id-uahpay">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/uahpay.png" class="currency-logo" alt="UAHPay">
+                        <a href="/currencies/uahpay/">UAHPay</a>
+                    </td>
+                    <td class="text-left">UAHPAY</td>
+                    <td class="text-right">5 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/uahpay/#markets" class="price" data-usd="0.000381379" data-btc="3.36507e-08">$0.000381</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x5c5413bad5f6fdb0f4fcd1457e46ead8e01d73d3" target="_blank" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/uahpay/#markets" class="volume" data-usd="2532.27" data-btc="0.223433">$2,532</a>
+                    </td>
+
+                    <td class="text-right">?</td>
+
+                </tr>
+
+                <tr id="id-eventchain">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/eventchain.png" class="currency-logo" alt="EventChain">
+                        <a href="/currencies/eventchain/">EventChain</a>
+                    </td>
+                    <td class="text-left">EVC</td>
+                    <td class="text-right">5 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/eventchain/#markets" class="price" data-usd="0.0918986" data-btc="8.10861e-06">$0.091899</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0xb62d18dea74045e822352ce4b3ee77319dc5ff2f" target="_blank" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/eventchain/#markets" class="volume" data-usd="368.054" data-btc="0.032475">$368</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-30.70" data-btc="-33.03">-30.70%</td>
+
+                </tr>
+
+                <tr id="id-mywish">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/mywish.png" class="currency-logo" alt="MyWish">
+                        <a href="/currencies/mywish/">MyWish</a>
+                    </td>
+                    <td class="text-left">WISH</td>
+                    <td class="text-right">6 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/mywish/#markets" class="price" data-usd="0.128659" data-btc="1.13521e-05">$0.128659</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x1b22c32cd936cb97c28c5690a0695a82abf688e6" target="_blank" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/mywish/#markets" class="volume" data-usd="19179.7" data-btc="1.69231">$19,180</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-14.93" data-btc="-17.77">-14.93%</td>
+
+                </tr>
+
+                <tr id="id-blockv">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/blockv.png" class="currency-logo" alt="BLOCKv">
+                        <a href="/currencies/blockv/">BLOCKv</a>
+                    </td>
+                    <td class="text-left">VEE</td>
+                    <td class="text-right">6 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/blockv/#markets" class="price" data-usd="0.0178646" data-btc="1.57627e-06">$0.017865</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x340d2bde5eb28c1eed91b2f790723e3b160613b7" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/blockv/#markets" class="volume" data-usd="71364.3" data-btc="6.29678">$71,364</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-3.65" data-btc="-6.90">-3.65%</td>
+
+                </tr>
+
+                <tr id="id-time-new-bank">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/time-new-bank.png" class="currency-logo" alt="Time New Bank">
+                        <a href="/currencies/time-new-bank/">Time New Bank</a>
+                    </td>
+                    <td class="text-left">TNB</td>
+                    <td class="text-right">7 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="38563558.0823" data-btc="3402.61825129">$38,563,558</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/time-new-bank/#markets" class="price" data-usd="0.0340465" data-btc="3.00406e-06">$0.034047</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0xf7920b0768ecb20a123fac32311d07d193381d6f" target="_blank" data-supply-container="" data-supply="1132673199.37">1,132,673,199</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/time-new-bank/#markets" class="volume" data-usd="3314790.0" data-btc="292.478">$3,314,790</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="3.37" data-btc="-0.08">3.37%</td>
+
+                </tr>
+
+                <tr id="id-anryze">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/anryze.png" class="currency-logo" alt="ANRYZE">
+                        <a href="/currencies/anryze/">ANRYZE</a>
+                    </td>
+                    <td class="text-left">RYZ</td>
+                    <td class="text-right">7 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/anryze/#markets" class="price" data-usd="0.0162942" data-btc="1.43771e-06">$0.016294</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://wavesexplorer.com/tx/HXdFUiw5yLLWhkorsRy1E5GttG2QZfzEYAVgEgjBNh8t" target="_blank" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/anryze/#markets" class="volume" data-usd="394382.0" data-btc="34.798">$394,382</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-31.13" data-btc="-33.45">-31.13%</td>
+
+                </tr>
+
+                <tr id="id-hyper-tv">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/hyper-tv.png" class="currency-logo" alt="Hyper TV">
+                        <a href="/currencies/hyper-tv/">Hyper TV</a>
+                    </td>
+                    <td class="text-left">HYTV</td>
+                    <td class="text-right">8 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/hyper-tv/#markets" class="price" data-usd="0.00363045" data-btc="3.20331e-07">$0.003630</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x7259fddca8d5f0184b3b12aa7e8401964b703a4f" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/hyper-tv/#markets" class="volume" data-usd="4740.59" data-btc="0.418282">$4,741</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-8.53" data-btc="-11.64">-8.53%</td>
+
+                </tr>
+
+                <tr id="id-glasscoin">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/glasscoin.png" class="currency-logo" alt="GlassCoin">
+                        <a href="/currencies/glasscoin/">GlassCoin</a>
+                    </td>
+                    <td class="text-left">GLS</td>
+                    <td class="text-right">8 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/glasscoin/#markets" class="price" data-usd="1.36002" data-btc="0.00012">$1.36</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://explorer.glasscoin.io/" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/glasscoin/#markets" class="volume" data-usd="20841.9" data-btc="1.83897">$20,842</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="34.43" data-btc="29.94">34.43%</td>
+
+                </tr>
+
+                <tr id="id-flixxo">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/flixxo.png" class="currency-logo" alt="Flixxo">
+                        <a href="/currencies/flixxo/">Flixxo</a>
+                    </td>
+                    <td class="text-left">FLIXX</td>
+                    <td class="text-right">9 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="6276115.21593" data-btc="553.768216812">$6,276,115</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/flixxo/#markets" class="price" data-usd="0.0909758" data-btc="8.02718e-06">$0.090976</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0xf04a8ac553fcedb5ba99a64799155826c136b0be" target="_blank" data-supply-container="" data-supply="68986644.9752">68,986,645</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/flixxo/#markets" class="volume" data-usd="77599.7" data-btc="6.84696">$77,600</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="13.81" data-btc="9.97">13.81%</td>
+
+                </tr>
+
+                <tr id="id-monkey-project">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/monkey-project.png" class="currency-logo" alt="Monkey Project">
+                        <a href="/currencies/monkey-project/">Monkey Project</a>
+                    </td>
+                    <td class="text-left">MONK</td>
+                    <td class="text-right">9 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="452041.577096" data-btc="39.8855236396">$452,042</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/monkey-project/#markets" class="price" data-usd="4.27272" data-btc="0.000377">$4.27</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://explorer.monkey.community/" target="_blank" class="stale" data-supply-container="" data-supply="105797.144933">105,797</a>
+
+
+
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/monkey-project/#markets" class="volume" data-usd="9085.08" data-btc="0.801615">$9,085</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-25.63" data-btc="-28.13">-25.63%</td>
+
+                </tr>
+
+                <tr id="id-divi">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/divi.png" class="currency-logo" alt="Divi">
+                        <a href="/currencies/divi/">Divi</a>
+                    </td>
+                    <td class="text-left">DIVX</td>
+                    <td class="text-right">9 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="7024318.4354" data-btc="619.783727229">$7,024,318</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/divi/#markets" class="price" data-usd="1.3658" data-btc="0.00012051">$1.37</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x13f11c9905a08ca76e3e853be63d4f0944326c72" target="_blank" data-supply-container="" data-supply="5143006.61546">5,143,007</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/divi/#markets" class="volume" data-usd="54430.3" data-btc="4.80262">$54,430</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="27.20" data-btc="22.93">27.20%</td>
+
+                </tr>
+
+                <tr id="id-plexcoin">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/plexcoin.png" class="currency-logo" alt="PlexCoin">
+                        <a href="/currencies/plexcoin/">PlexCoin</a>
+                    </td>
+                    <td class="text-left">PLX</td>
+                    <td class="text-right">9 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/plexcoin/#markets" class="price" data-usd="0.114907" data-btc="1.01387e-05">$0.114907</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0xb3203DB25a01fa7950a860B42b899Ad7Da52DDD6" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/plexcoin/#markets" class="volume" data-usd="24694.1" data-btc="2.17887">$24,694</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-4.73" data-btc="-7.94">-4.73%</td>
+
+                </tr>
+
+                <tr id="id-dimoncoin">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/dimoncoin.png" class="currency-logo" alt="DimonCoin">
+                        <a href="/currencies/dimoncoin/">DimonCoin</a>
+                    </td>
+                    <td class="text-left">FUDD</td>
+                    <td class="text-right">9 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/dimoncoin/#markets" class="price" data-usd="0.00114919" data-btc="1.01398e-07">$0.001149</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0xde39e5e5a1b0eeb3afe717d6d011cae88d19451e" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/dimoncoin/#markets" class="volume" data-usd="187.933" data-btc="0.0165821">$188</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-0.01" data-btc="-3.36">-0.01%</td>
+
+                </tr>
+
+                <tr id="id-combicoin">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/combicoin.png" class="currency-logo" alt="Triaconta">
+                        <a href="/currencies/combicoin/">Triaconta</a>
+                    </td>
+                    <td class="text-left">TRIA</td>
+                    <td class="text-right">10 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/combicoin/#markets" class="price" data-usd="8.27088" data-btc="0.000729775">$8.27</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x3293cc907fde439b39aedaf1b982785adaff186b" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/combicoin/#markets" class="volume" data-usd="112.576" data-btc="0.00993304">$113</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="4.55" data-btc="1.03">4.55%</td>
+
+                </tr>
+
+                <tr id="id-accelerator-network">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/accelerator-network.png" class="currency-logo" alt="Accelerator Network">
+                        <a href="/currencies/accelerator-network/">Accelerator Network</a>
+                    </td>
+                    <td class="text-left">ACC</td>
+                    <td class="text-right">10 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="1161216.10996" data-btc="102.45895791">$1,161,216</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/accelerator-network/#markets" class="price" data-usd="6.79307" data-btc="0.000599381">$6.79</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x13f1b7fdfbe1fc66676d56483e21b1ecb40b58e2" target="_blank" data-supply-container="" data-supply="170941.284274">170,941</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/accelerator-network/#markets" class="volume" data-usd="5323.69" data-btc="0.469732">$5,324</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="8.59" data-btc="4.95">8.59%</td>
+
+                </tr>
+
+                <tr id="id-poly-ai">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/poly-ai.png" class="currency-logo" alt="POLY AI">
+                        <a href="/currencies/poly-ai/">POLY AI</a>
+                    </td>
+                    <td class="text-left">AI</td>
+                    <td class="text-right">10 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/poly-ai/#markets" class="price" data-usd="14.9621" data-btc="0.00132017">$14.96</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x5121e348e897daef1eef23959ab290e5557cf274" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/poly-ai/#markets" class="volume" data-usd="4845650.0" data-btc="427.552">$4,845,650</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-5.32" data-btc="-8.49">-5.32%</td>
+
+                </tr>
+
+                <tr id="id-bitcoin-diamond">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/bitcoin-diamond.png" class="currency-logo" alt="Bitcoin Diamond [Futures]">
+                        <a href="/currencies/bitcoin-diamond/">Bitcoin Diamond [Futures]</a>
+                    </td>
+                    <td class="text-left">BCD</td>
+                    <td class="text-right">10 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/bitcoin-diamond/#markets" class="price" data-usd="47.3691" data-btc="0.00417958">$47.37</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+
+                        <span class="stale" data-supply-container="" data-supply="?">?</span>
+
+
+
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/bitcoin-diamond/#markets" class="volume" data-usd="6015320.0" data-btc="530.758">$6,015,320</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="1.76" data-btc="-1.67">1.76%</td>
+
+                </tr>
+
+                <tr id="id-votecoin">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/votecoin.png" class="currency-logo" alt="VoteCoin">
+                        <a href="/currencies/votecoin/">VoteCoin</a>
+                    </td>
+                    <td class="text-left">VOT</td>
+                    <td class="text-right">11 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="171777.61995" data-btc="15.156655">$171,778</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/votecoin/#markets" class="price" data-usd="0.0104268" data-btc="9.2e-07">$0.010427</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://explorer.votecoin.site/" target="_blank" class="stale" data-supply-container="" data-supply="16474625.0">16,474,625</a>
+
+
+
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/votecoin/#markets" class="volume" data-usd="13060.5" data-btc="1.15239">$13,061</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-8.06" data-btc="-11.16">-8.06%</td>
+
+                </tr>
+
+                <tr id="id-mutual-coin">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/mutual-coin.png" class="currency-logo" alt="Mutual Coin">
+                        <a href="/currencies/mutual-coin/">Mutual Coin</a>
+                    </td>
+                    <td class="text-left">MUT</td>
+                    <td class="text-right">11 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="967928.822948" data-btc="85.4045473712">$967,929</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/mutual-coin/#markets" class="price" data-usd="0.00789942" data-btc="6.97e-07">$0.007899</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://mutualcoin.dynu.net/" target="_blank" data-supply-container="" data-supply="122531631.809">122,531,632</a>
+
+
+
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/mutual-coin/#markets" class="volume" data-usd="114992.0" data-btc="10.1462">$114,992</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="45.23" data-btc="40.38">45.23%</td>
+
+                </tr>
+
+                <tr id="id-spankchain">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/spankchain.png" class="currency-logo" alt="SpankChain">
+                        <a href="/currencies/spankchain/">SpankChain</a>
+                    </td>
+                    <td class="text-left">SPANK</td>
+                    <td class="text-right">11 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/spankchain/#markets" class="price" data-usd="0.0321645" data-btc="2.83801e-06">$0.032164</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x42d6622dece394b54999fbd73d108123806f6a18" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/spankchain/#markets" class="volume" data-usd="11025.5" data-btc="0.97283">$11,026</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-2.63" data-btc="-5.92">-2.63%</td>
+
+                </tr>
+
+                <tr id="id-magnet">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/magnet.png" class="currency-logo" alt="Magnet">
+                        <a href="/currencies/magnet/">Magnet</a>
+                    </td>
+                    <td class="text-left">MAG</td>
+                    <td class="text-right">11 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="4550963.04032" data-btc="401.551622317">$4,550,963</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/magnet/#markets" class="price" data-usd="1.35888" data-btc="0.0001199">$1.36</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://explorer.magnetwork.io/" target="_blank" data-supply-container="" data-supply="3349054.39798">3,349,054</a>
+
+
+
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/magnet/#markets" class="volume" data-usd="123405.0" data-btc="10.8886">$123,405</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="97.36" data-btc="90.77">97.36%</td>
+
+                </tr>
+
+                <tr id="id-publica">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/publica.png" class="currency-logo" alt="Publica">
+                        <a href="/currencies/publica/">Publica</a>
+                    </td>
+                    <td class="text-left">PBL</td>
+                    <td class="text-right">11 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="3145235.65735" data-btc="277.517513955">$3,145,236</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/publica/#markets" class="price" data-usd="0.169254" data-btc="1.4934e-05">$0.169254</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x55648de19836338549130b1af587f16bea46f66b" target="_blank" class="stale" data-supply-container="" data-supply="18582932.5">18,582,933</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/publica/#markets" class="volume" data-usd="65898.6" data-btc="5.81452">$65,899</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="2.86" data-btc="-0.58">2.86%</td>
+
+                </tr>
+
+                <tr id="id-smartbillions">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/smartbillions.png" class="currency-logo" alt="SmartBillions">
+                        <a href="/currencies/smartbillions/">SmartBillions</a>
+                    </td>
+                    <td class="text-left">SMART</td>
+                    <td class="text-right">11 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="2589021.16008" data-btc="228.440060559">$2,589,021</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/smartbillions/#markets" class="price" data-usd="0.413544" data-btc="3.64887e-05">$0.413544</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x6F6DEb5db0C4994A8283A01D6CFeEB27Fc3bBe9C" target="_blank" data-supply-container="" data-supply="6260570.0">6,260,570</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/smartbillions/#markets" class="volume" data-usd="1303.58" data-btc="0.115021">$1,304</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-4.48" data-btc="-7.69">-4.48%</td>
+
+                </tr>
+
+                <tr id="id-energo">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/energo.png" class="currency-logo" alt="Energo">
+                        <a href="/currencies/energo/">Energo</a>
+                    </td>
+                    <td class="text-left">TSL</td>
+                    <td class="text-right">13 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/energo/#markets" class="price" data-usd="0.0302919" data-btc="2.67279e-06">$0.030292</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x03806ce5ef69bd9780edfb04c29da1f23db96294" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/energo/#markets" class="volume" data-usd="540856.0" data-btc="47.722">$540,856</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-1.97" data-btc="-5.28">-1.97%</td>
+
+                </tr>
+
+                <tr id="id-zozocoin">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/zozocoin.png" class="currency-logo" alt="ZoZoCoin">
+                        <a href="/currencies/zozocoin/">ZoZoCoin</a>
+                    </td>
+                    <td class="text-left">ZZC</td>
+                    <td class="text-right">13 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/zozocoin/#markets" class="price" data-usd="2.15936" data-btc="0.00019053">$2.16</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://www.zzcexplorer.com/" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/zozocoin/#markets" class="volume" data-usd="358740.0" data-btc="31.6531">$358,740</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="25.73" data-btc="21.49">25.73%</td>
+
+                </tr>
+
+                <tr id="id-qash">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/qash.png" class="currency-logo" alt="QASH">
+                        <a href="/currencies/qash/">QASH</a>
+                    </td>
+                    <td class="text-left">QASH</td>
+                    <td class="text-right">13 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="110456782.338" data-btc="9746.08084287">$110,456,782</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/qash/#markets" class="price" data-usd="0.841083" data-btc="7.42124e-05">$0.841083</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x618e75ac90b12c6049ba3b27f5d5f8651b0037f6" target="_blank" data-supply-container="" data-supply="131326851.616">131,326,852</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/qash/#markets" class="volume" data-usd="11322600.0" data-btc="999.041">$11,322,600</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-19.14" data-btc="-21.85">-19.14%</td>
+
+                </tr>
+
+                <tr id="id-quantstamp">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/quantstamp.png" class="currency-logo" alt="Quantstamp">
+                        <a href="/currencies/quantstamp/">Quantstamp</a>
+                    </td>
+                    <td class="text-left">QSP</td>
+                    <td class="text-right">13 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="81965740.9729" data-btc="7232.20589964">$81,965,741</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/quantstamp/#markets" class="price" data-usd="0.132778" data-btc="1.17156e-05">$0.132778</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x99ea4db9ee77acd40b119bd1dc4e33e1c070b80d" target="_blank" class="stale" data-supply-container="" data-supply="617314170.819">617,314,171</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/quantstamp/#markets" class="volume" data-usd="22576500.0" data-btc="1992.02">$22,576,500</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="6.89" data-btc="3.33">6.89%</td>
+
+                </tr>
+
+                <tr id="id-bodhi">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/bodhi.png" class="currency-logo" alt="Bodhi">
+                        <a href="/currencies/bodhi/">Bodhi</a>
+                    </td>
+                    <td class="text-left">BOT</td>
+                    <td class="text-right">14 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/bodhi/#markets" class="price" data-usd="0.450043" data-btc="3.97093e-05">$0.450043</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+
+                        <span class="stale" data-supply-container="" data-supply="?">?</span>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/bodhi/#markets" class="volume" data-usd="265839.0" data-btc="23.4561">$265,839</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="0.24" data-btc="-3.12">0.24%</td>
+
+                </tr>
+
+                <tr id="id-bitcoin2x">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/bitcoin2x.png" class="currency-logo" alt="Bitcoin2x">
+                        <a href="/currencies/bitcoin2x/">Bitcoin2x</a>
+                    </td>
+                    <td class="text-left">BTC2X</td>
+                    <td class="text-right">14 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/bitcoin2x/#markets" class="price" data-usd="0.0041336" data-btc="3.64725e-07">$0.004134</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x15ef5b9447710eab904e63e6233ff540400d603f" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/bitcoin2x/#markets" class="volume" data-usd="4750.24" data-btc="0.419134">$4,750</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="4.00" data-btc="0.50">4.00%</td>
+
+                </tr>
+
+                <tr id="id-ink">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/ink.png" class="currency-logo" alt="Ink">
+                        <a href="/currencies/ink/">Ink</a>
+                    </td>
+                    <td class="text-left">INK</td>
+                    <td class="text-right">14 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="37349435.5" data-btc="3295.503825">$37,349,436</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/ink/#markets" class="price" data-usd="0.209534" data-btc="1.84881e-05">$0.209534</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://explorer.qtum.org/token/fe59cbc1704e89a698571413a81f0de9d8f00c69" target="_blank" data-supply-container="" data-supply="178250000.0">178,250,000</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/ink/#markets" class="volume" data-usd="17024800.0" data-btc="1502.17">$17,024,800</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-3.55" data-btc="-6.80">-3.55%</td>
+
+                </tr>
+
+                <tr id="id-encrypgen">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/encrypgen.png" class="currency-logo" alt="EncrypGen">
+                        <a href="/currencies/encrypgen/">EncrypGen</a>
+                    </td>
+                    <td class="text-left">DNA</td>
+                    <td class="text-right">14 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="4073495.40374" data-btc="359.421165492">$4,073,495</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/encrypgen/#markets" class="price" data-usd="0.112973" data-btc="9.96807e-06">$0.112973</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x82b0e50478eeafde392d45d1259ed1071b6fda81" target="_blank" data-supply-container="" data-supply="36057247.34">36,057,247</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/encrypgen/#markets" class="volume" data-usd="70285.4" data-btc="6.20158">$70,285</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-21.69" data-btc="-24.31">-21.69%</td>
+
+                </tr>
+
+                <tr id="id-digipulse">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/digipulse.png" class="currency-logo" alt="DigiPulse">
+                        <a href="/currencies/digipulse/">DigiPulse</a>
+                    </td>
+                    <td class="text-left">DGPT</td>
+                    <td class="text-right">14 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/digipulse/#markets" class="price" data-usd="1.15184" data-btc="0.000101632">$1.15</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0xf6cfe53d6febaeea051f400ff5fc14f0cbbdaca1" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/digipulse/#markets" class="volume" data-usd="3256.89" data-btc="0.287369">$3,257</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-13.61" data-btc="-16.50">-13.61%</td>
+
+                </tr>
+
+                <tr id="id-copico">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/copico.png" class="currency-logo" alt="Copico">
+                        <a href="/currencies/copico/">Copico</a>
+                    </td>
+                    <td class="text-left">XCPO</td>
+                    <td class="text-right">14 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/copico/#markets" class="price" data-usd="0.0243015" data-btc="2.14423e-06">$0.024302</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://explorer.copico.io:3001/" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/copico/#markets" class="volume" data-usd="138660.0" data-btc="12.2345">$138,660</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="12.73" data-btc="8.94">12.73%</td>
+
+                </tr>
+
+                <tr id="id-phantomx">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/phantomx.png" class="currency-logo" alt="Phantomx">
+                        <a href="/currencies/phantomx/">Phantomx</a>
+                    </td>
+                    <td class="text-left">PNX</td>
+                    <td class="text-right">14 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/phantomx/#markets" class="price" data-usd="0.0152556" data-btc="1.34606e-06">$0.015256</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://78.109.28.154:3001/" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/phantomx/#markets" class="volume" data-usd="3666.97" data-btc="0.323553">$3,667</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-10.12" data-btc="-13.12">-10.12%</td>
+
+                </tr>
+
+                <tr id="id-b2bx">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/b2bx.png" class="currency-logo" alt="B2B">
+                        <a href="/currencies/b2bx/">B2B</a>
+                    </td>
+                    <td class="text-left">B2B</td>
+                    <td class="text-right">14 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/b2bx/#markets" class="price" data-usd="0.349214" data-btc="3.08126e-05">$0.349214</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x5d51fcced3114a8bb5e90cdd0f9d682bcbcc5393" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/b2bx/#markets" class="volume" data-usd="4985.5" data-btc="0.439892">$4,986</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-1.11" data-btc="-4.45">-1.11%</td>
+
+                </tr>
+
+                <tr id="id-infinity-pay">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/infinity-pay.png" class="currency-logo" alt="Infinity Pay">
+                        <a href="/currencies/infinity-pay/">Infinity Pay</a>
+                    </td>
+                    <td class="text-left">IPY</td>
+                    <td class="text-right">14 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/infinity-pay/#markets" class="price" data-usd="0.00171667" data-btc="1.51469e-07">$0.001717</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x2cfd4c10c075fa51649744245ec1d0aa3d567e23" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/infinity-pay/#markets" class="volume" data-usd="55.5987" data-btc="0.00490571">$56</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-2.34" data-btc="-5.61">-2.34%</td>
+
+                </tr>
+
+                <tr id="id-oyster-pearl">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/oyster-pearl.png" class="currency-logo" alt="Oyster Pearl">
+                        <a href="/currencies/oyster-pearl/">Oyster Pearl</a>
+                    </td>
+                    <td class="text-left">PRL</td>
+                    <td class="text-right">14 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="342933.3822" data-btc="30.2583694302">$342,933</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/oyster-pearl/#markets" class="price" data-usd="0.0114414" data-btc="1.00952e-06">$0.011441</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x1844b21593262668b7248d0f57a220caaba46ab9" target="_blank" data-supply-container="" data-supply="29973026.2205">29,973,026</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/oyster-pearl/#markets" class="volume" data-usd="9659.92" data-btc="0.852336">$9,660</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-28.60" data-btc="-30.99">-28.60%</td>
+
+                </tr>
+
+                <tr id="id-win-coin">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/win-coin.png" class="currency-logo" alt="WINCOIN">
+                        <a href="/currencies/win-coin/">WINCOIN</a>
+                    </td>
+                    <td class="text-left">WC</td>
+                    <td class="text-right">14 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/win-coin/#markets" class="price" data-usd="0.915203" data-btc="8.07523e-05">$0.915203</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://chainz.cryptoid.info/wc" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/win-coin/#markets" class="volume" data-usd="427809.0" data-btc="37.7474">$427,809</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="25.88" data-btc="21.66">25.88%</td>
+
+                </tr>
+
+                <tr id="id-gobyte">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/gobyte.png" class="currency-logo" alt="GoByte">
+                        <a href="/currencies/gobyte/">GoByte</a>
+                    </td>
+                    <td class="text-left">GBX</td>
+                    <td class="text-right">14 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="3353790.00881" data-btc="295.918534215">$3,353,790</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/gobyte/#markets" class="price" data-usd="21.1016" data-btc="0.00186188">$21.10</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://explorer.gobyte.network:5001/" target="_blank" data-supply-container="" data-supply="158935.341813">158,935</a>
+
+
+
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/gobyte/#markets" class="volume" data-usd="390463.0" data-btc="34.4522">$390,463</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-19.23" data-btc="-21.96">-19.23%</td>
+
+                </tr>
+
+                <tr id="id-alqo">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/alqo.png" class="currency-logo" alt="ALQO">
+                        <a href="/currencies/alqo/">ALQO</a>
+                    </td>
+                    <td class="text-left">ALQO</td>
+                    <td class="text-right">15 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="676142.77459" data-btc="59.6589151484">$676,143</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/alqo/#markets" class="price" data-usd="0.0740281" data-btc="6.53181e-06">$0.074028</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://explorer.alqo.org/" target="_blank" data-supply-container="" data-supply="9133596.22347">9,133,596</a>
+
+
+
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/alqo/#markets" class="volume" data-usd="52176.8" data-btc="4.60378">$52,177</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-20.84" data-btc="-23.51">-20.84%</td>
+
+                </tr>
+
+                <tr id="id-viuly">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/viuly.png" class="currency-logo" alt="Viuly">
+                        <a href="/currencies/viuly/">Viuly</a>
+                    </td>
+                    <td class="text-left">VIU</td>
+                    <td class="text-right">15 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/viuly/#markets" class="price" data-usd="0.00879758" data-btc="7.76248e-07">$0.008798</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x519475b31653e46d20cd09f9fdcf3b12bdacb4f5" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/viuly/#markets" class="volume" data-usd="9980.54" data-btc="0.880626">$9,981</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="0.71" data-btc="-2.68">0.71%</td>
+
+                </tr>
+
+                <tr id="id-corethum">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/corethum.png" class="currency-logo" alt="Corethum">
+                        <a href="/currencies/corethum/">Corethum</a>
+                    </td>
+                    <td class="text-left">CRTM</td>
+                    <td class="text-right">15 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="14060.475" data-btc="1.2406175">$14,060</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/corethum/#markets" class="price" data-usd="0.00562419" data-btc="4.96247e-07">$0.005624</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0xa119f0f5fd06ebadff8883c0f3c40b2d22e7a44f" target="_blank" class="stale" data-supply-container="" data-supply="2500000.0">2,500,000</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/corethum/#markets" class="volume" data-usd="475.575" data-btc="0.041962">$476</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="29.46" data-btc="25.10">29.46%</td>
+
+                </tr>
+
+                <tr id="id-sugar-exchange">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/sugar-exchange.png" class="currency-logo" alt="Sugar Exchange">
+                        <a href="/currencies/sugar-exchange/">Sugar Exchange</a>
+                    </td>
+                    <td class="text-left">SGR</td>
+                    <td class="text-right">15 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="82201.7" data-btc="7.253015">$82,202</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/sugar-exchange/#markets" class="price" data-usd="0.0234862" data-btc="2.07229e-06">$0.023486</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0xCB5A05beF3257613E984C17DbcF039952B6d883F" target="_blank" class="stale" data-supply-container="" data-supply="3500000.0">3,500,000</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/sugar-exchange/#markets" class="volume" data-usd="6142.57" data-btc="0.541985">$6,143</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-23.84" data-btc="-26.41">-23.84%</td>
+
+                </tr>
+
+                <tr id="id-bitboost">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/bitboost.png" class="currency-logo" alt="BitBoost">
+                        <a href="/currencies/bitboost/">BitBoost</a>
+                    </td>
+                    <td class="text-left">BBT</td>
+                    <td class="text-right">15 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="524116.127962" data-btc="46.2450458332">$524,116</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/bitboost/#markets" class="price" data-usd="0.107779" data-btc="9.50981e-06">$0.107779</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x1500205f50bf3fd976466d0662905c9ff254fc9c" target="_blank" class="stale" data-supply-container="" data-supply="4862878.0">4,862,878</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/bitboost/#markets" class="volume" data-usd="1264.52" data-btc="0.111574">$1,265</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-31.54" data-btc="-33.84">-31.54%</td>
+
+                </tr>
+
+                <tr id="id-bitserial">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/bitserial.png" class="currency-logo" alt="BitSerial">
+                        <a href="/currencies/bitserial/">BitSerial</a>
+                    </td>
+                    <td class="text-left">BTE</td>
+                    <td class="text-right">15 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/bitserial/#markets" class="price" data-usd="8.45697" data-btc="0.000746194">$8.46</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x6733d909e10ddedb8d6181b213de32a30ceac7ed" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/bitserial/#markets" class="volume" data-usd="4342260.0" data-btc="383.136">$4,342,260</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="63.85" data-btc="58.34">63.85%</td>
+
+                </tr>
+
+                <tr id="id-aerium">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/aerium.png" class="currency-logo" alt="Aerium">
+                        <a href="/currencies/aerium/">Aerium</a>
+                    </td>
+                    <td class="text-left">AERM</td>
+                    <td class="text-right">17 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/aerium/#markets" class="price" data-usd="0.508188" data-btc="4.48396e-05">$0.508188</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://185.223.31.170:3001/" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/aerium/#markets" class="volume" data-usd="20067.8" data-btc="1.77067">$20,068</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-28.20" data-btc="-30.61">-28.20%</td>
+
+                </tr>
+
+                <tr id="id-gold-reward-token">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/gold-reward-token.png" class="currency-logo" alt="GOLD Reward Token">
+                        <a href="/currencies/gold-reward-token/">GOLD Reward Token</a>
+                    </td>
+                    <td class="text-left">GRX</td>
+                    <td class="text-right">17 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/gold-reward-token/#markets" class="price" data-usd="4.30285" data-btc="0.000379659">$4.30</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x219218f117dc9348b358b8471c55a073e5e0da0b" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/gold-reward-token/#markets" class="volume" data-usd="1076300.0" data-btc="94.9663">$1,076,300</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="1.47" data-btc="-1.95">1.47%</td>
+
+                </tr>
+
+                <tr id="id-ebitcoin-cash">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/ebitcoin-cash.png" class="currency-logo" alt="eBitcoinCash">
+                        <a href="/currencies/ebitcoin-cash/">eBitcoinCash</a>
+                    </td>
+                    <td class="text-left">EBCH</td>
+                    <td class="text-right">17 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="100494.18085" data-btc="8.867058228">$100,494</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/ebitcoin-cash/#markets" class="price" data-usd="0.0108227" data-btc="9.54936e-07">$0.010823</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0xafc39788c51f0c1ff7b55317f3e70299e521fff6" target="_blank" class="stale" data-supply-container="" data-supply="9285500.0">9,285,500</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/ebitcoin-cash/#markets" class="volume" data-usd="2826.49" data-btc="0.249393">$2,826</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-27.83" data-btc="-30.27">-27.83%</td>
+
+                </tr>
+
+                <tr id="id-paypex">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/paypex.png" class="currency-logo" alt="Paypex">
+                        <a href="/currencies/paypex/">Paypex</a>
+                    </td>
+                    <td class="text-left">PAYX</td>
+                    <td class="text-right">18 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="24507826.4724" data-btc="2162.42993606">$24,507,826</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/paypex/#markets" class="price" data-usd="0.358405" data-btc="3.16236e-05">$0.358405</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x62a56a4a2ef4d355d34d10fbf837e747504d38d4" target="_blank" class="stale" data-supply-container="" data-supply="68380258.29">68,380,258</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/paypex/#markets" class="volume" data-usd="22438.4" data-btc="1.97984">$22,438</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="21.80" data-btc="17.72">21.80%</td>
+
+                </tr>
+
+                <tr id="id-astro">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/astro.png" class="currency-logo" alt="Astro">
+                        <a href="/currencies/astro/">Astro</a>
+                    </td>
+                    <td class="text-left">ASTRO</td>
+                    <td class="text-right">18 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/astro/#markets" class="price" data-usd="1.95239" data-btc="0.000172267">$1.95</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x7b22938ca841aa392c93dbb7f4c42178e3d65e88" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/astro/#markets" class="volume" data-usd="4962.52" data-btc="0.437865">$4,963</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="7.09" data-btc="3.48">7.09%</td>
+
+                </tr>
+
+                <tr id="id-sisa">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/sisa.png" class="currency-logo" alt="SISA">
+                        <a href="/currencies/sisa/">SISA</a>
+                    </td>
+                    <td class="text-left">SISA</td>
+                    <td class="text-right">18 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/sisa/#markets" class="price" data-usd="0.0115757" data-btc="1.02138e-06">$0.011576</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0xA0aa85b54F8A7b09C845F13a09172B08925f3d54" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/sisa/#markets" class="volume" data-usd="3218.18" data-btc="0.283954">$3,218</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-4.37" data-btc="-7.59">-4.37%</td>
+
+                </tr>
+
+                <tr id="id-faceblock">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/faceblock.png" class="currency-logo" alt="Faceblock">
+                        <a href="/currencies/faceblock/">Faceblock</a>
+                    </td>
+                    <td class="text-left">FBL</td>
+                    <td class="text-right">18 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/faceblock/#markets" class="price" data-usd="0.00163212" data-btc="1.44009e-07">$0.001632</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0xc0c2ee1ce1fed8f6e2764363a36db3dd4cf10022" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/faceblock/#markets" class="volume" data-usd="32.624" data-btc="0.00287856">$33</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="0.47" data-btc="-2.88">0.47%</td>
+
+                </tr>
+
+                <tr id="id-pluscoin">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/pluscoin.png" class="currency-logo" alt="PlusCoin">
+                        <a href="/currencies/pluscoin/">PlusCoin</a>
+                    </td>
+                    <td class="text-left">PLC</td>
+                    <td class="text-right">18 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/pluscoin/#markets" class="price" data-usd="0.00066167" data-btc="5.8382e-08">$0.000662</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x0835ecd15ddf08d4786304d71b4672dc5c40f011" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/pluscoin/#markets" class="volume" data-usd="2617.73" data-btc="0.230974">$2,618</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="14.60" data-btc="10.76">14.60%</td>
+
+                </tr>
+
+                <tr id="id-intensecoin">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/intensecoin.png" class="currency-logo" alt="IntenseCoin">
+                        <a href="/currencies/intensecoin/">IntenseCoin</a>
+                    </td>
+                    <td class="text-left">ITNS</td>
+                    <td class="text-right">18 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="954422.503649" data-btc="84.21287144">$954,423</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/intensecoin/#markets" class="price" data-usd="0.00351337" data-btc="3.1e-07">$0.003513</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://intensecoin.com/explorer/" target="_blank" class="stale" data-supply-container="" data-supply="271654424.0">271,654,424</a>
+
+
+
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/intensecoin/#markets" class="volume" data-usd="2975.01" data-btc="0.262498">$2,975</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="0.23" data-btc="-3.13">0.23%</td>
+
+                </tr>
+
+                <tr id="id-privatix">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/privatix.png" class="currency-logo" alt="Privatix">
+                        <a href="/currencies/privatix/">Privatix</a>
+                    </td>
+                    <td class="text-left">PRIX</td>
+                    <td class="text-right">18 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="1604870.49125" data-btc="141.604432067">$1,604,870</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/privatix/#markets" class="price" data-usd="1.37296" data-btc="0.000121142">$1.37</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x3adfc4999f77d04c8341bac5f3a76f58dff5b37a" target="_blank" data-supply-container="" data-supply="1168912.7806">1,168,913</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/privatix/#markets" class="volume" data-usd="48331.0" data-btc="4.26445">$48,331</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="6.09" data-btc="2.54">6.09%</td>
+
+                </tr>
+
+                <tr id="id-ea-coin">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/ea-coin.png" class="currency-logo" alt="EA Coin">
+                        <a href="/currencies/ea-coin/">EA Coin</a>
+                    </td>
+                    <td class="text-left">EAG</td>
+                    <td class="text-right">18 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/ea-coin/#markets" class="price" data-usd="3.08437" data-btc="0.000272147">$3.08</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://insight.eacoin.io/" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/ea-coin/#markets" class="volume" data-usd="99865.8" data-btc="8.81159">$99,866</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-2.32" data-btc="-5.61">-2.32%</td>
+
+                </tr>
+
+                <tr id="id-eaglecoin">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/eaglecoin.png" class="currency-logo" alt="EagleCoin">
+                        <a href="/currencies/eaglecoin/">EagleCoin</a>
+                    </td>
+                    <td class="text-left">EAGLE</td>
+                    <td class="text-right">18 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="108180.020211" data-btc="9.54518137852">$108,180</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/eaglecoin/#markets" class="price" data-usd="0.0516762" data-btc="4.55961e-06">$0.051676</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x994f0dffdbae0bbf09b652d6f11a493fd33f42b9" target="_blank" class="stale" data-supply-container="" data-supply="2093420.57293">2,093,421</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/eaglecoin/#markets" class="volume" data-usd="21135.0" data-btc="1.86483">$21,135</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-45.20" data-btc="-47.04">-45.20%</td>
+
+                </tr>
+
+                <tr id="id-genesis-vision">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/genesis-vision.png" class="currency-logo" alt="Genesis Vision">
+                        <a href="/currencies/genesis-vision/">Genesis Vision</a>
+                    </td>
+                    <td class="text-left">GVT</td>
+                    <td class="text-right">19 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="23556199.4447" data-btc="2078.46297572">$23,556,199</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/genesis-vision/#markets" class="price" data-usd="6.32079" data-btc="0.00055771">$6.32</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x103c3a209da59d3e7c4a89307e66521e081cfdf0" target="_blank" data-supply-container="" data-supply="3726780.89997">3,726,781</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/genesis-vision/#markets" class="volume" data-usd="1016870.0" data-btc="89.7225">$1,016,870</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-4.24" data-btc="-7.47">-4.24%</td>
+
+                </tr>
+
+                <tr id="id-student-coin">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/student-coin.png" class="currency-logo" alt="bitJob">
+                        <a href="/currencies/student-coin/">bitJob</a>
+                    </td>
+                    <td class="text-left">STU</td>
+                    <td class="text-right">19 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/student-coin/#markets" class="price" data-usd="0.030566" data-btc="2.69697e-06">$0.030566</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x0371a82e4a9d0a4312f3ee2ac9c6958512891372" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/student-coin/#markets" class="volume" data-usd="6809.68" data-btc="0.600847">$6,810</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="8.98" data-btc="5.35">8.98%</td>
+
+                </tr>
+
+                <tr id="id-hawla-today">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/hawla-today.png" class="currency-logo" alt="Hawala.Today">
+                        <a href="/currencies/hawla-today/">Hawala.Today</a>
+                    </td>
+                    <td class="text-left">HAT</td>
+                    <td class="text-right">20 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/hawla-today/#markets" class="price" data-usd="0.168634" data-btc="1.48793e-05">$0.168634</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0xc3972ac283b3a7a56125674631a5c254f7f373cf" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/hawla-today/#markets" class="volume" data-usd="1582.95" data-btc="0.139671">$1,583</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-10.77" data-btc="-13.76">-10.77%</td>
+
+                </tr>
+
+                <tr id="id-upfiring">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/upfiring.png" class="currency-logo" alt="Upfiring">
+                        <a href="/currencies/upfiring/">Upfiring</a>
+                    </td>
+                    <td class="text-left">UFR</td>
+                    <td class="text-right">20 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="390584.160157" data-btc="34.4629440139">$390,584</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/upfiring/#markets" class="price" data-usd="0.0271239" data-btc="2.39326e-06">$0.027124</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0xea097a2b1db00627b2fa17460ad260c016016977" target="_blank" data-supply-container="" data-supply="14400000.0058">14,400,000</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/upfiring/#markets" class="volume" data-usd="1546.19" data-btc="0.136427">$1,546</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-0.81" data-btc="-4.15">-0.81%</td>
+
+                </tr>
+
+                <tr id="id-sharechain">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/sharechain.png" class="currency-logo" alt="Sharechain">
+                        <a href="/currencies/sharechain/">Sharechain</a>
+                    </td>
+                    <td class="text-left">SSS</td>
+                    <td class="text-right">20 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/sharechain/#markets" class="price" data-usd="0.0029117" data-btc="2.56911e-07">$0.002912</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x7d3e7d41da367b4fdce7cbe06502b13294deb758" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/sharechain/#markets" class="volume" data-usd="26499.1" data-btc="2.33813">$26,499</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="17.61" data-btc="13.67">17.61%</td>
+
+                </tr>
+
+                <tr id="id-decent-bet">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/decent-bet.png" class="currency-logo" alt="DecentBet">
+                        <a href="/currencies/decent-bet/">DecentBet</a>
+                    </td>
+                    <td class="text-left">DBET</td>
+                    <td class="text-right">21 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="8929868.90336" data-btc="787.921228267">$8,929,869</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/decent-bet/#markets" class="price" data-usd="0.144157" data-btc="1.27196e-05">$0.144157</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x9b68bfae21df5a510931a262cecf63f41338f264" target="_blank" data-supply-container="" data-supply="61945440.7581">61,945,441</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/decent-bet/#markets" class="volume" data-usd="17413.9" data-btc="1.5365">$17,414</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-1.48" data-btc="-4.78">-1.48%</td>
+
+                </tr>
+
+                <tr id="id-decision-token">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/decision-token.png" class="currency-logo" alt="Decision Token">
+                        <a href="/currencies/decision-token/">Decision Token</a>
+                    </td>
+                    <td class="text-left">HST</td>
+                    <td class="text-right">22 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="11621959.5313" data-btc="1025.4561952">$11,621,960</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/decision-token/#markets" class="price" data-usd="0.372704" data-btc="3.28853e-05">$0.372704</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x554c20b7c486beee439277b4540a434566dc4c02" target="_blank" data-supply-container="" data-supply="31182814.0597">31,182,814</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/decision-token/#markets" class="volume" data-usd="303600.0" data-btc="26.788">$303,600</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="31.71" data-btc="27.32">31.71%</td>
+
+                </tr>
+
+                <tr id="id-neo-gold">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/neo-gold.png" class="currency-logo" alt="NEO GOLD">
+                        <a href="/currencies/neo-gold/">NEO GOLD</a>
+                    </td>
+                    <td class="text-left">NEOG</td>
+                    <td class="text-right">23 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/neo-gold/#markets" class="price" data-usd="0.00231963" data-btc="2.04671e-07">$0.002320</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x449574c69f3a658794829ed81639a7a9ece041e1" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/neo-gold/#markets" class="volume" data-usd="6377.44" data-btc="0.562709">$6,377</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="7.55" data-btc="3.93">7.55%</td>
+
+                </tr>
+
+                <tr id="id-interstellar-holdings">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/interstellar-holdings.png" class="currency-logo" alt="Interstellar Holdings">
+                        <a href="/currencies/interstellar-holdings/">Interstellar Holdings</a>
+                    </td>
+                    <td class="text-left">HOLD</td>
+                    <td class="text-right">23 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/interstellar-holdings/#markets" class="price" data-usd="0.0294622" data-btc="2.59958e-06">$0.029462</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://explorer.interstellarcoin.com/" target="_blank" data-supply-container="" data-supply="?">?</a>
+
+
+
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/interstellar-holdings/#markets" class="volume" data-usd="32213.2" data-btc="2.84231">$32,213</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="41.46" data-btc="36.70">41.46%</td>
+
+                </tr>
+
+                <tr id="id-emphy">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/emphy.png" class="currency-logo" alt="Emphy">
+                        <a href="/currencies/emphy/">Emphy</a>
+                    </td>
+                    <td class="text-left">EPY</td>
+                    <td class="text-right">23 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="719376.691819" data-btc="63.4736188482">$719,377</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/emphy/#markets" class="price" data-usd="0.0941975" data-btc="8.31144e-06">$0.094198</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x50ee674689d75c0f88e8f83cfe8c4b69e8fd590d" target="_blank" data-supply-container="" data-supply="7636897.92">7,636,898</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/emphy/#markets" class="volume" data-usd="6779.36" data-btc="0.598172">$6,779</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-23.64" data-btc="-26.19">-23.64%</td>
+
+                </tr>
+
+                <tr id="id-abjcoin">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/abjcoin.png" class="currency-logo" alt="Abjcoin">
+                        <a href="/currencies/abjcoin/">Abjcoin</a>
+                    </td>
+                    <td class="text-left">ABJ</td>
+                    <td class="text-right">24 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="1289551.01222" data-btc="113.782697374">$1,289,551</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/abjcoin/#markets" class="price" data-usd="0.156022" data-btc="1.37665e-05">$0.156022</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://www.abjcoin.io/" target="_blank" class="stale" data-supply-container="" data-supply="8265187.03915">8,265,187</a>
+
+
+
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/abjcoin/#markets" class="volume" data-usd="137063.0" data-btc="12.0937">$137,063</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="3.31" data-btc="-0.13">3.31%</td>
+
+                </tr>
+
+                <tr id="id-oxycoin">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/oxycoin.png" class="currency-logo" alt="Oxycoin">
+                        <a href="/currencies/oxycoin/">Oxycoin</a>
+                    </td>
+                    <td class="text-left">OXY</td>
+                    <td class="text-right">24 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/oxycoin/#markets" class="price" data-usd="0.150159" data-btc="1.32492e-05">$0.150159</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://explorer.oxycoin.io/" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/oxycoin/#markets" class="volume" data-usd="25119.6" data-btc="2.21641">$25,120</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="6.80" data-btc="3.23">6.80%</td>
+
+                </tr>
+
+                <tr id="id-zcash-gold">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/zcash-gold.png" class="currency-logo" alt="ZCash Gold">
+                        <a href="/currencies/zcash-gold/">ZCash Gold</a>
+                    </td>
+                    <td class="text-left">ZCG</td>
+                    <td class="text-right">24 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="281949.4506" data-btc="24.8777627955">$281,949</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/zcash-gold/#markets" class="price" data-usd="0.14044" data-btc="1.23917e-05">$0.140440</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x180e5087935a94fd5bbab00fd2249c5be0473381" target="_blank" class="stale" data-supply-container="" data-supply="2007615.0">2,007,615</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/zcash-gold/#markets" class="volume" data-usd="15374.8" data-btc="1.35659">$15,375</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="3.08" data-btc="-0.38">3.08%</td>
+
+                </tr>
+
+                <tr id="id-grimcoin">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/grimcoin.png" class="currency-logo" alt="Grimcoin">
+                        <a href="/currencies/grimcoin/">Grimcoin</a>
+                    </td>
+                    <td class="text-left">GRIM</td>
+                    <td class="text-right">24 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="21099.8687852" data-btc="1.86172701243">$21,100</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/grimcoin/#markets" class="price" data-usd="0.00204361" data-btc="1.80316e-07">$0.002044</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://grim.reaper.rocks/" target="_blank" class="stale" data-supply-container="" data-supply="10324802.0832">10,324,802</a>
+
+
+
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/grimcoin/#markets" class="volume" data-usd="65.524" data-btc="0.00578147">$66</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-2.87" data-btc="-6.16">-2.87%</td>
+
+                </tr>
+
+                <tr id="id-blockpool">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/blockpool.png" class="currency-logo" alt="Blockpool">
+                        <a href="/currencies/blockpool/">Blockpool</a>
+                    </td>
+                    <td class="text-left">BPL</td>
+                    <td class="text-right">25 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/blockpool/#markets" class="price" data-usd="0.127399" data-btc="1.1241e-05">$0.127399</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://bplexp.blockpool.io:9031/" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/blockpool/#markets" class="volume" data-usd="9755.9" data-btc="0.860805">$9,756</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="11.46" data-btc="7.74">11.46%</td>
+
+                </tr>
+
+                <tr id="id-ties-network">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/ties-network.png" class="currency-logo" alt="TIES Network">
+                        <a href="/currencies/ties-network/">TIES Network</a>
+                    </td>
+                    <td class="text-left">TIE</td>
+                    <td class="text-right">25 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/ties-network/#markets" class="price" data-usd="0.101088" data-btc="8.91947e-06">$0.101088</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x999967e2ec8a74b7c8e9db19e039d920b31d39d0" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/ties-network/#markets" class="volume" data-usd="610.666" data-btc="0.0538817">$611</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="0.48" data-btc="-2.89">0.48%</td>
+
+                </tr>
+
+                <tr id="id-erc20">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/erc20.png" class="currency-logo" alt="ERC20">
+                        <a href="/currencies/erc20/">ERC20</a>
+                    </td>
+                    <td class="text-left">ERC20</td>
+                    <td class="text-right">25 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="960062.992132" data-btc="84.7105234271">$960,063</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/erc20/#markets" class="price" data-usd="0.000609664" data-btc="5.37933e-08">$0.000610</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x26d5bd2dfeda983ecd6c39899e69dae6431dffbb" target="_blank" data-supply-container="" data-supply="1574741156.0">1,574,741,156</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/erc20/#markets" class="volume" data-usd="111904.0" data-btc="9.87377">$111,904</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="77.74" data-btc="71.77">77.74%</td>
+
+                </tr>
+
+                <tr id="id-dcorp">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/dcorp.png" class="currency-logo" alt="DCORP">
+                        <a href="/currencies/dcorp/">DCORP</a>
+                    </td>
+                    <td class="text-left">DRP</td>
+                    <td class="text-right">25 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="6416601.39812" data-btc="566.164141173">$6,416,601</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/dcorp/#markets" class="price" data-usd="0.79276" data-btc="6.99486e-05">$0.792760</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x621d78f2ef2fd937bfca696cabaf9a779f59b3ed" target="_blank" class="stale" data-supply-container="" data-supply="8094002.47">8,094,002</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/dcorp/#markets" class="volume" data-usd="37008.8" data-btc="3.26544">$37,009</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="0.30" data-btc="-3.05">0.30%</td>
+
+                </tr>
+
+                <tr id="id-zephyr">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/zephyr.png" class="currency-logo" alt="Zephyr">
+                        <a href="/currencies/zephyr/">Zephyr</a>
+                    </td>
+                    <td class="text-left">ZEPH</td>
+                    <td class="text-right">26 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="3242341.22992" data-btc="286.085448784">$3,242,341</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/zephyr/#markets" class="price" data-usd="0.0257348" data-btc="2.27069e-06">$0.025735</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://cryptofresh.com/a/ZEPH" target="_blank" class="stale" data-supply-container="" data-supply="125990535.381">125,990,535</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/zephyr/#markets" class="volume" data-usd="14558.8" data-btc="1.28458">$14,559</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-5.66" data-btc="-8.84">-5.66%</td>
+
+                </tr>
+
+                <tr id="id-delphy">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/delphy.png" class="currency-logo" alt="Delphy">
+                        <a href="/currencies/delphy/">Delphy</a>
+                    </td>
+                    <td class="text-left">DPY</td>
+                    <td class="text-right">26 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="19663799.7276" data-btc="1735.01895047">$19,663,800</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/delphy/#markets" class="price" data-usd="0.698123" data-btc="6.15983e-05">$0.698123</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x6c2adc2073994fb2ccc5032cc2906fa221e9b391" target="_blank" data-supply-container="" data-supply="28166669.38">28,166,669</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/delphy/#markets" class="volume" data-usd="12729.5" data-btc="1.12318">$12,730</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="0.69" data-btc="-2.69">0.69%</td>
+
+                </tr>
+
+                <tr id="id-raiden-network-token">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/raiden-network-token.png" class="currency-logo" alt="Raiden Network Token">
+                        <a href="/currencies/raiden-network-token/">Raiden Network Token</a>
+                    </td>
+                    <td class="text-left">RDN</td>
+                    <td class="text-right">26 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="166566180.498" data-btc="14696.8477799">$166,566,180</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/raiden-network-token/#markets" class="price" data-usd="3.32143" data-btc="0.000293064">$3.32</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x255aa6df07540cb5d3d297f0d0d4d84cb52bc8e6" target="_blank" data-supply-container="" data-supply="50148936.0">50,148,936</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/raiden-network-token/#markets" class="volume" data-usd="12835100.0" data-btc="1132.5">$12,835,100</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-8.88" data-btc="-11.92">-8.88%</td>
+
+                </tr>
+
+                <tr id="id-innova">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/innova.png" class="currency-logo" alt="Innova">
+                        <a href="/currencies/innova/">Innova</a>
+                    </td>
+                    <td class="text-left">INN</td>
+                    <td class="text-right">26 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="3913760.59467" data-btc="345.327663305">$3,913,761</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/innova/#markets" class="price" data-usd="4.54471" data-btc="0.000400999">$4.54</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://explorer.innovacoin.info" target="_blank" data-supply-container="" data-supply="861168.390209">861,168</a>
+
+
+
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/innova/#markets" class="volume" data-usd="159225.0" data-btc="14.0491">$159,225</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="16.29" data-btc="12.38">16.29%</td>
+
+                </tr>
+
+                <tr id="id-farad">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/farad.png" class="currency-logo" alt="Farad">
+                        <a href="/currencies/farad/">Farad</a>
+                    </td>
+                    <td class="text-left">FRD</td>
+                    <td class="text-right">27 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="22142080.0" data-btc="1953.68">$22,142,080</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/farad/#markets" class="price" data-usd="0.138388" data-btc="1.22105e-05">$0.138388</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x0abefb7611cb3a01ea3fad85f33c3c934f8e2cf4" target="_blank" class="stale" data-supply-container="" data-supply="160000000.0">160,000,000</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/farad/#markets" class="volume" data-usd="21016.0" data-btc="1.85433">$21,016</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="10.67" data-btc="6.93">10.67%</td>
+
+                </tr>
+
+                <tr id="id-phore">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/phore.png" class="currency-logo" alt="Phore">
+                        <a href="/currencies/phore/">Phore</a>
+                    </td>
+                    <td class="text-left">PHR</td>
+                    <td class="text-right">27 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="3728684.13319" data-btc="328.998058098">$3,728,684</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/phore/#markets" class="price" data-usd="0.384127" data-btc="3.38932e-05">$0.384127</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://chainz.cryptoid.info/phr/" target="_blank" data-supply-container="" data-supply="9706904.57373">9,706,905</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/phore/#markets" class="volume" data-usd="51505.8" data-btc="4.54458">$51,506</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="8.13" data-btc="4.52">8.13%</td>
+
+                </tr>
+
+                <tr id="id-starcash-network">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/starcash-network.png" class="currency-logo" alt="StarCash Network">
+                        <a href="/currencies/starcash-network/">StarCash Network</a>
+                    </td>
+                    <td class="text-left">STARS</td>
+                    <td class="text-right">27 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/starcash-network/#markets" class="price" data-usd="0.226896" data-btc="2.002e-05">$0.226896</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://45.63.54.41/" target="_blank" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/starcash-network/#markets" class="volume" data-usd="267.877" data-btc="0.0236359">$268</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-1.70" data-btc="-5.01">-1.70%</td>
+
+                </tr>
+
+                <tr id="id-rasputin-online-coin">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/rasputin-online-coin.png" class="currency-logo" alt="Rasputin Online Coin">
+                        <a href="/currencies/rasputin-online-coin/">Rasputin Online Coin</a>
+                    </td>
+                    <td class="text-left">ROC</td>
+                    <td class="text-right">27 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="531083.121402" data-btc="46.8597590985">$531,083</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/rasputin-online-coin/#markets" class="price" data-usd="0.490095" data-btc="4.32432e-05">$0.490095</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x1bcbc54166f6ba149934870b60506199b6c9db6d" target="_blank" data-supply-container="" data-supply="1083633.01279">1,083,633</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/rasputin-online-coin/#markets" class="volume" data-usd="629.505" data-btc="0.055544">$630</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="7.17" data-btc="3.58">7.17%</td>
+
+                </tr>
+
+                <tr id="id-confido">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/confido.png" class="currency-logo" alt="Confido">
+                        <a href="/currencies/confido/">Confido</a>
+                    </td>
+                    <td class="text-left">CFD</td>
+                    <td class="text-right">27 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="107207.1" data-btc="9.45936">$107,207</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/confido/#markets" class="price" data-usd="0.0119119" data-btc="1.05104e-06">$0.011912</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x14839bf22810F09fb163AF69BD21Bd5476F445Cd" target="_blank" class="stale" data-supply-container="" data-supply="9000000.0">9,000,000</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/confido/#markets" class="volume" data-usd="298.976" data-btc="0.0263799">$299</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-20.52" data-btc="-23.17">-20.52%</td>
+
+                </tr>
+
+                <tr id="id-yellow-token">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/yellow-token.png" class="currency-logo" alt="Yellow Token">
+                        <a href="/currencies/yellow-token/">Yellow Token</a>
+                    </td>
+                    <td class="text-left">YEL</td>
+                    <td class="text-right">27 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/yellow-token/#markets" class="price" data-usd="0.00525109" data-btc="4.63326e-07">$0.005251</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x8633e144f2d9b9b8bDD12ddB58e4bEF1E163a0cE" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/yellow-token/#markets" class="volume" data-usd="52.3822" data-btc="0.00462191">$52</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-64.36" data-btc="-65.56">-64.36%</td>
+
+                </tr>
+
+                <tr id="id-aeron">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/aeron.png" class="currency-logo" alt="Aeron">
+                        <a href="/currencies/aeron/">Aeron</a>
+                    </td>
+                    <td class="text-left">ARN</td>
+                    <td class="text-right">27 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="4244950.40892" data-btc="374.550004202">$4,244,950</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/aeron/#markets" class="price" data-usd="0.359637" data-btc="3.17323e-05">$0.359637</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0xBA5F11b16B155792Cf3B2E6880E8706859A8AEB6" target="_blank" data-supply-container="" data-supply="11803430.7063">11,803,431</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/aeron/#markets" class="volume" data-usd="2002210.0" data-btc="176.664">$2,002,210</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-4.15" data-btc="-7.38">-4.15%</td>
+
+                </tr>
+
+                <tr id="id-cartaxi-token">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/cartaxi-token.png" class="currency-logo" alt="CarTaxi Token">
+                        <a href="/currencies/cartaxi-token/">CarTaxi Token</a>
+                    </td>
+                    <td class="text-left">CTX</td>
+                    <td class="text-right">27 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="1836512.62411" data-btc="162.043059635">$1,836,513</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/cartaxi-token/#markets" class="price" data-usd="0.0298439" data-btc="2.63325e-06">$0.029844</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x662aBcAd0b7f345AB7FfB1b1fbb9Df7894f18e66" target="_blank" class="stale" data-supply-container="" data-supply="61537286.4845">61,537,286</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/cartaxi-token/#markets" class="volume" data-usd="18052.2" data-btc="1.59282">$18,052</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-0.13" data-btc="-3.46">-0.13%</td>
+
+                </tr>
+
+                <tr id="id-autonio">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/autonio.png" class="currency-logo" alt="Autonio">
+                        <a href="/currencies/autonio/">Autonio</a>
+                    </td>
+                    <td class="text-left">NIO</td>
+                    <td class="text-right">28 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="5025411.98529" data-btc="443.413709391">$5,025,412</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/autonio/#markets" class="price" data-usd="0.0763414" data-btc="6.73593e-06">$0.076341</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x5554e04e76533e1d14c52f05beef6c9d329e1e30" target="_blank" data-supply-container="" data-supply="65828135.0">65,828,135</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/autonio/#markets" class="volume" data-usd="26611.4" data-btc="2.34804">$26,611</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-10.08" data-btc="-13.11">-10.08%</td>
+
+                </tr>
+
+                <tr id="id-credence-coin">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/credence-coin.png" class="currency-logo" alt="Credence Coin">
+                        <a href="/currencies/credence-coin/">Credence Coin</a>
+                    </td>
+                    <td class="text-left">CRDNC</td>
+                    <td class="text-right">28 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="13378870.1511" data-btc="1180.47379815">$13,378,870</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/credence-coin/#markets" class="price" data-usd="3.94975" data-btc="0.000348503">$3.95</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://blockexp.com:3004/" target="_blank" data-supply-container="" data-supply="3387270.11863">3,387,270</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/credence-coin/#markets" class="volume" data-usd="737660.0" data-btc="65.0869">$737,660</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="16.45" data-btc="12.53">16.45%</td>
+
+                </tr>
+
+                <tr id="id-unikoin-gold">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/unikoin-gold.png" class="currency-logo" alt="Unikoin Gold">
+                        <a href="/currencies/unikoin-gold/">Unikoin Gold</a>
+                    </td>
+                    <td class="text-left">UKG</td>
+                    <td class="text-right">29 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="23897237.4442" data-btc="2108.55144256">$23,897,237</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/unikoin-gold/#markets" class="price" data-usd="0.178618" data-btc="1.57602e-05">$0.178618</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="https://etherscan.io/token/0x24692791bc444c5cd0b81e3cbcaba4b04acd1f3b" target="_blank" data-supply-container="" data-supply="133789637.35">133,789,637</a>
+
+
+                        *
+
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/unikoin-gold/#markets" class="volume" data-usd="120418.0" data-btc="10.625">$120,418</a>
+                    </td>
+
+                    <td class="no-wrap percent-24h  text-right negative_change" data-usd="-6.88" data-btc="-10.02">-6.88%</td>
+
+                </tr>
+
+                <tr id="id-desire">
+                    <td class="no-wrap currency-name">
+                        <img src="https://files.coinmarketcap.com/static/img/coins/16x16/desire.png" class="currency-logo" alt="Desire">
+                        <a href="/currencies/desire/">Desire</a>
+                    </td>
+                    <td class="text-left">DSR</td>
+                    <td class="text-right">29 days ago</td>
+                    <td class="no-wrap market-cap text-right" data-usd="?" data-btc="?">$?</td>
+                    <td class="no-wrap text-right">
+                        <a href="/currencies/desire/#markets" class="price" data-usd="0.304055" data-btc="2.68281e-05">$0.304055</a>
+                    </td>
+                    <td class="no-wrap text-right circulating-supply">
+                        <a href="http://www.desire-crypto.com/block-explorer" target="_blank" class="stale" data-supply-container="" data-supply="?">?</a>
+                    </td>
+                    <td class="no-wrap text-right ">
+                        <a href="/currencies/desire/#markets" class="volume" data-usd="51255.0" data-btc="4.52245">$51,255</a>
+                    </td>
+                    <td class="no-wrap percent-24h   text-right positive_change" data-usd="22.43" data-btc="18.35">22.43%</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "fusion-map-server",
+  "version": "1.0.0",
+  "description": "This server provides tiles with points was drawn on it",
+  "main": "app.js",
+  "scripts": {
+    "test": "",
+    "start": "node src/controller/home.js"
+  },
+  "author": "fusion-team",
+  "license": "ISC",
+  "dependencies": {
+    "consolidate": "^0.15.0",
+    "express": "^4.16.2",
+    "log": "^1.4.0",
+    "mongoose": "^4.13.6",
+    "pg": "^7.4.0",
+    "swig": "^1.4.2"
+  }
+}
