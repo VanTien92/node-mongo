@@ -3,3 +3,9 @@
     border-bottom: 1px solid #e7e7e7;
     padding-top: 9px;
 }
+.negative_change {
+    color: #d14836;
+}
+.positive_change {
+    color: #093;
+}

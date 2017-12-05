@@ -13,5 +13,4 @@ var userSchema = new Schema({
 // we need to create a model using it
 var Tickers = mongoose.model('tickers', userSchema);
 
-// make this available to our users in our Node applications
 module.exports = Tickers;

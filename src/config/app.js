@@ -12,7 +12,7 @@ const cons = require('consolidate');
 // view engine setup
 app.engine('html', cons.swig);
 app.set('views', './views');
-app.set('view engine', 'html');
+app.set('view engine', 'ejs');
 
 app.use('/resources',express.static(__dirname +  '/../../resources'));
 

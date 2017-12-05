@@ -125,6 +125,11 @@
 <div class="container">
     <div class="row container">
         <h1 class="title text-center">Cryptocurrency Market Capitalizations</h1>
+        <ul>
+        <% data.forEach(function(d) { %>
+        <li><%= d %></li>
+        <% }); %>
+        </ul>
         <hr/>
         <nav class="navbar desktop navbar-default hidden-xs">
             <div class="navbar-header">

@@ -5,21 +5,50 @@ const log = new Log('debug');
 
 const app = require('../config/app');
 
-const Tickers = require('../model/tickers');
+const afterLoad = require('after-load');
 
-// const request = require('request');
-// const jsdom = require('jsdom');
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
+
+const TableData = require('../dto/tableData');
+
+const TickerService = require('../service/tickersService');
+
+const tickerService = new TickerService();
 
 app.get('/', function(req, res) {
-    Tickers.find({}, function(err, users) {
-        if (err) throw err;
+    afterLoad('https://coinmarketcap.com/new/', function(html){
+        const dom = new JSDOM(html);
 
-        users.forEach(function(user) {
-            console.log(user._id);
-        });
+        var oTable = dom.window.document.getElementsByClassName('table')[0];
+
+        var rowLength = oTable.rows.length;
+
+        var data = [];
+
+        for (var i = 1; i < rowLength; i++){
+            var oCells = oTable.rows.item(i).cells;
+
+            var tableData = new TableData();
+
+            tableData.url = oCells.item(0).querySelector("img").src ;
+            tableData.name = oCells.item(0).querySelector("a").innerHTML;
+            tableData.symbol = oCells.item(1).innerHTML;
+            tableData.addedDate = oCells.item(2).innerHTML;
+            tableData.marketCap = oCells.item(3).innerHTML;
+            tableData.price = oCells.item(4).querySelector("a").innerHTML;
+            var dataSupply = oCells.item(5).querySelector("a") || oCells.item(5).querySelector("span");
+            tableData.circulating = (dataSupply != null) ? dataSupply.innerHTML : "";
+            tableData.volume = (oCells.item(6) != null && oCells.item(6).querySelector("a") != null)? oCells.item(6).querySelector("a").innerHTML : "";
+            tableData.percent = (oCells.item(7) != null && oCells.item(7).getAttribute("data-usd") != null)? parseFloat(oCells.item(7).getAttribute("data-usd")) : null;
+
+            tickerService.saveTicker(tableData.name, tableData.symbol);
+
+            data.push(tableData);
+        }
+        res.render('index', {data: data});
     });
 
-    res.render('index');
 });
 
 log.debug('Server is running at PID: ' + process.pid);
