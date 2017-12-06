@@ -1,8 +1,5 @@
 'use strict';
 
-const Log = require('log');
-const log = new Log('debug');
-
 const app = require('../config/app');
 
 const afterLoad = require('after-load');
@@ -11,10 +8,6 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
 const TableData = require('../dto/tableData');
-
-const TickerService = require('../service/tickersService');
-
-const tickerService = new TickerService();
 
 app.get('/', function(req, res) {
     afterLoad('https://coinmarketcap.com/new/', function(html){
@@ -42,8 +35,6 @@ app.get('/', function(req, res) {
             tableData.volume = (oCells.item(6) != null && oCells.item(6).querySelector("a") != null)? oCells.item(6).querySelector("a").innerHTML : "";
             tableData.percent = (oCells.item(7) != null && oCells.item(7).getAttribute("data-usd") != null)? parseFloat(oCells.item(7).getAttribute("data-usd")) : null;
 
-            tickerService.saveTicker(tableData.name, tableData.symbol);
-
             data.push(tableData);
         }
         res.render('index', {data: data});
@@ -51,4 +42,4 @@ app.get('/', function(req, res) {
 
 });
 
-log.debug('Server is running at PID: ' + process.pid);
+module.exports = this;

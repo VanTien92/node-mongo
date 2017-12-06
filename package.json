@@ -2,16 +2,17 @@
   "name": "node-mongo",
   "version": "1.0.0",
   "description": "Nodejs exercise",
-  "main": "home.js",
+  "main": "main.js",
   "scripts": {
     "test": "",
-    "start": "node src/controller/home.js"
+    "start": "node src/controller/main.js"
   },
   "author": "vantien",
   "license": "ISC",
   "dependencies": {
     "after-load": "^1.0.4",
     "consolidate": "^0.15.0",
+    "cron": "^1.3.0",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "jsdom": "^11.5.1",

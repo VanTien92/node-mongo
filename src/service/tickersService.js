@@ -9,20 +9,24 @@ var TickerService = function () {};
 
 TickerService.prototype = {
     saveTicker: function (id, symbol) {
-        var usersProjection = {
-            __v: false,
-            _id: false
-        };
-
-        Tickers.find({}, {id: id, symbol: symbol}, function (err, users) {
+        Tickers.findOne({}, {id: id, symbol: symbol}, function (err, ticker) {
             if (err) return next(err);
-            if (users.length == 0) {
-                var tickers = new Tickers({
+            if (ticker == null) {
+                let newTicker = new Tickers({
                     id: id,
                     symbol: symbol,
-                    platform: null
+                    platform: null,
+                    new: true
                 });
-                tickers.save(function(err){
+                newTicker.save(function(err){
+                    if (err) {
+                        log.debug(err);
+                    }
+                });
+            } else {
+                Tickers.update({id: id, symbol: symbol}, {
+                    new: false,
+                }, function(err, numberAffected, rawResponse) {
                     if (err) {
                         log.debug(err);
                     }
@@ -32,4 +36,4 @@ TickerService.prototype = {
     }
 };
 
-module.exports = TickerService;
+module.exports = new TickerService();
